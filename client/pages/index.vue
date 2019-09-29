@@ -4,12 +4,10 @@
       <v-text-field v-model="query" label="Regular" />
     </div>
     <v-layout row wrap>
-      <v-flex v-for="todo in todoList" :key="todo.objectID" xs4>
+      <v-flex v-for="todo in todoList" :key="todo.objectID" xs12 md4>
         <v-card class="grey ma-2">
           <blockquote class="twitter-tweet" data-dnt="true">
-            <a
-              href="https://twitter.com/gogoigarashi/status/1176453725499490305?ref_src=twsrc%5Etfw"
-            />
+            <a :href="todo.tweetLink" />
           </blockquote>
           <script
             async
