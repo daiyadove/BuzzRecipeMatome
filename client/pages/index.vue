@@ -1,31 +1,50 @@
 <template>
   <section class="container">
     <div>
-      <logo />
-      <h1 class="title">test</h1>
-      <h2 class="subtitle">My awesome Nuxt.js project</h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
-      </div>
+      <v-text-field v-model="query" label="Regular" />
     </div>
+    <v-layout row wrap>
+      <v-flex v-for="todo in todoList" :key="todo.objectID" xs4>
+        <v-card class="grey ma-2">
+          <v-card-text>{{ todo.name }}</v-card-text>
+          <v-card-text>{{ todo.description }}</v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </section>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import * as algoliasearch from 'algoliasearch'
+import config from '~/algolia.config.js'
 
-@Component({
-  components: {
-    Logo: () => import('~/components/Logo.vue')
+const client = algoliasearch(config.appId, config.apiKey)
+const index = client.initIndex('quasar_firestore')
+
+export default {
+  data() {
+    return {
+      todoInput: {
+        title: '',
+        description: '',
+        done: false
+      },
+      registerModalIsVisible: false,
+      query: '',
+      todoList: []
+    }
+  },
+  watch: {
+    async query() {
+      const searchResult = await index.search({ query: this.query })
+      this.todoList = searchResult.hits
+    }
+  },
+  async asyncData() {
+    const searchResult = await index.search({ query: '' })
+    return {
+      todoList: searchResult.hits
+    }
   }
-})
-export default class Index extends Vue {}
+}
 </script>
