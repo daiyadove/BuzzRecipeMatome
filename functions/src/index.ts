@@ -1,5 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import DocumentSnapshot = FirebaseFirestore.DocumentSnapshot
+
 admin.initializeApp()
 const env = functions.config()
 
@@ -10,17 +12,29 @@ const client = algoliasearch(env.algolia.appid, env.algolia.apikey);
 // 作成したAlgoliaのIndex名を入れる
 const index = client.initIndex('quasar_firestore');
 
-// Cityというコレクションにドキュメントが追加されたときに、
-// algoliaにも、追加される設定です。
-exports.indexCity = functions.firestore
-  .document('recipe/{recipeId}')
-  .onCreate((snap, context) => {
-    const data = snap.data();
-    const objectID = snap.id;
+// Recipeというコレクションにドキュメントが追加されたときに、
+// algoliaにも、追加する設定
+// exports.indexRecipe = functions.firestore
+//   .document('recipe/{recipeId}')
+//   .onWrite((change, context) => {
+//     const data = .data();
+//     const objectID = snap.id;
 
-    // Add the data to the algolia index
-    return index.addObject({
-      objectID,
-      ...data
-    });
-});
+//     // Add the data to the algolia index
+//     return index.addObject({
+//       objectID,
+//       ...data
+//     });
+// });
+exports.indexRecipe = functions.firestore
+  .document('recipe/{recipeId}')
+  .onWrite((change: functions.Change<DocumentSnapshot>) => {
+    const recipe = change.after.data()
+    const objectID = change.after.id
+    return index.saveObject(
+        Object.assign({
+          objectID,
+          ...recipe
+        })
+    )
+  });
