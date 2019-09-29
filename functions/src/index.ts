@@ -13,7 +13,7 @@ const index = client.initIndex('quasar_firestore');
 // Cityというコレクションにドキュメントが追加されたときに、
 // algoliaにも、追加される設定です。
 exports.indexCity = functions.firestore
-  .document('city/{cityId}')
+  .document('recipe/{recipeId}')
   .onCreate((snap, context) => {
     const data = snap.data();
     const objectID = snap.id;
