@@ -9,8 +9,8 @@ const index = client.initIndex('quasar_firestore')
 @Module({ stateFactory: true, namespaced: true, name: 'search' })
 export default class Search extends VuexModule {
 
-    public queryString: string = '';
-    public BuzzList: string[] = [];
+    queryString: string = '';
+    BuzzList: string[] = [];
 
     @Mutation
     public setBuzzList(resultBuzz: string[]) {

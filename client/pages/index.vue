@@ -17,6 +17,9 @@ import { searchStore } from '~/store'
   }
 })
 export default class Search extends Vue {
+  mounted(): void {
+    searchStore.query()
+  }
   @Watch('queryString')
   query() {
     searchStore.query()
@@ -25,7 +28,7 @@ export default class Search extends Vue {
     return searchStore.queryString
   }
   set queryString(value: string) {
-    searchStore.queryString = value
+    searchStore.setQueryString(value)
   }
 }
 </script>
