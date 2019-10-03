@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <div>
-      <v-text-field v-model="queryString" label="検索" />
+      <v-text-field v-model="queryString" label="料理名･食材名･キーワード" />
     </div>
     <DispTweets />
   </section>
