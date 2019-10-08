@@ -15,7 +15,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
-export default class DispTweet extends Vue {
+export default class TwitterCard extends Vue {
   @Prop({ required: true }) tweetLink: String
 }
 </script>
