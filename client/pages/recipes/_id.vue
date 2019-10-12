@@ -1,22 +1,33 @@
 <template>
-  <div>
-    <TweetCard :tweetLink="this.tweetLink" />
-  </div>
+  <v-container>
+    <v-row md-4 xs-12>
+      <v-col>
+        <TweetCard :tweetLink="this.tweetLink" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { searchStore } from '~/store'
 
 @Component({
   components: {
     TweetCard: () => import('@/components/TweetCard.vue')
   }
 })
-export default class DispTweet extends Vue {
-  tweetLink: string = ''
+export default class Detail extends Vue {
+  objectId: string = ''
 
   mounted(): void {
-    this.tweetLink = this.$nuxt.$route.params.id
+    this.objectId = this.$nuxt.$route.params.id
+    console.log(this.objectId)
+    searchStore.setQueryString(this.objectId)
+    searchStore.search()
+  }
+  get tweetLink(): string {
+    return searchStore.TweetObject.tweetLink
   }
 }
 </script>

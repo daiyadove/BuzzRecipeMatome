@@ -4,7 +4,7 @@
       <n-link
         :to="{
           name: 'recipes-id',
-          params: { id: tweet.tweetLink }
+          params: { id: tweet.objectID }
         }"
       >
         <TweetCard :tweetLink="tweet.tweetLink" />
