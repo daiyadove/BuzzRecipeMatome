@@ -1,11 +1,16 @@
 <template>
-  <v-container>
-    <v-row md-4 xs-12>
-      <v-col>
-        <TweetCard :tweetLink="this.tweetLink" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <v-card class="d-flex flex-row" flat tile>
+      <TweetCard :tweetLink="this.tweetLink" />
+      <v-card class="flex-grow-1">
+        <v-card-title>材料</v-card-title>
+        <v-card-text>
+          <div>･なす</div>
+          <div>･バター</div>
+        </v-card-text>
+      </v-card>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
