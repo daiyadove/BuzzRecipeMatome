@@ -25,6 +25,11 @@ statuses = api.list_timeline(slug='recipe', owner_screen_name='flowphantom')
 docs = db.collection('recipe').stream() 
 exists_tweet_list = list(map(lambda doc: doc.to_dict()['tweetLink'], docs))
 
+recipe_words = [
+    'フライパン',
+    '電子レンジ'
+]
+
 for status in statuses:
     status = status._json
     # status = api.get_status(tweetID)._json
@@ -33,8 +38,16 @@ for status in statuses:
             continue
         url = 'https://twitter.com/' + status['user']['screen_name'] + '/status/' + status['id_str']
 
+        # 既レシピは追加しない
         if url in exists_tweet_list:
             continue
+
+        # レシピワードが含まれているか検査する
+        has_recie_word = any(list(map(lambda recipe_word: recipe_word in status['text'], recipe_words)))
+        # レシピワードがないツイートは追加しない
+        if not(has_recie_word):
+            continue
+
         # doc_ref.set({
         #     'tweetLink': url,
         #     'tweetText': status['text'],
