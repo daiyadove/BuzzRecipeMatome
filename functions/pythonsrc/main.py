@@ -4,24 +4,34 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import time
-import settings
 import os
 
-def getRecipeTweet():
+def getRecipeTweet(event, context):
 
-    cred = credentials.Certificate("buzzrecipematome-firebase-adminsdk-h15r1-c07517e0f1.json")
-    firebase_admin.initialize_app(cred)
+    # cred = credentials.Certificate("buzzrecipematome-firebase-adminsdk-h15r1-c07517e0f1.json")
+    # firebase_admin.initialize_app(cred)
+    # Use the application default credentials
+    # cred = credentials.ApplicationDefault()
+    # firebase_admin.initialize_app(cred, {
+    #   'projectId': 'buzzrecipematome',
+    # })
+    if (not len(firebase_admin._apps)):
+        cred = credentials.ApplicationDefault()
+        firebase_admin.initialize_app(cred, {
+            'projectId': 'buzzrecipematome',
+        })
+
     db = firestore.client()
 
-    consumer_key = settings.CONSUMER_KEY 
-    consumer_secret = settings.CONSUMER_SECRET
-    access_token_key = settings.ACCESS_TOKEN_KEY
-    access_token_secret = settings.ACCESS_TOKEN_SECRET
+    # consumer_key = settings.CONSUMER_KEY 
+    # consumer_secret = settings.CONSUMER_SECRET
+    # access_token_key = settings.ACCESS_TOKEN_KEY
+    # access_token_secret = settings.ACCESS_TOKEN_SECRET
 
-    # consumer_key = os.getenv('CONSUMER_KEY')
-    # consumer_secret = os.getenv('CONSUMER_SECRET')
-    # access_token_key = os.getenv('ACCESS_TOKEN_KEY')
-    # access_token_secret = os.getenv('ACCESS_TOKEN_SECRET')
+    consumer_key = os.getenv('CONSUMER_KEY')
+    consumer_secret = os.getenv('CONSUMER_SECRET')
+    access_token_key = os.getenv('ACCESS_TOKEN_KEY')
+    access_token_secret = os.getenv('ACCESS_TOKEN_SECRET')
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token_key, access_token_secret)
@@ -60,10 +70,10 @@ def getRecipeTweet():
             if not(has_recie_word):
                 continue
 
-            # doc_ref.set({
-            #     'tweetLink': url,
-            #     'tweetText': status['text'],
-            # })
+            doc_ref.set({
+                'tweetLink': url,
+                'tweetText': status['text'],
+            })
 
             print(url)
             print(status['text'])
@@ -71,6 +81,3 @@ def getRecipeTweet():
             time.sleep(2)
         except IndexError:
             pass
-
-if __name__ == '__main__':
-    getRecipeTweet()
