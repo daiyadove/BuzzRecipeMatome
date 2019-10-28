@@ -2,13 +2,7 @@
   <div>
     <v-card class="d-flex flex-row" flat tile>
       <TweetCard :tweetLink="this.tweetLink" />
-      <v-card class="flex-grow-1">
-        <v-card-title>材料</v-card-title>
-        <v-card-text>
-          <div>･なす</div>
-          <div>･バター</div>
-        </v-card-text>
-      </v-card>
+      <Detail />
     </v-card>
   </div>
 </template>
@@ -19,7 +13,8 @@ import { searchStore } from '~/store'
 
 @Component({
   components: {
-    TweetCard: () => import('@/components/TweetCard.vue')
+    TweetCard: () => import('@/components/TweetCard.vue'),
+    Detail: () => import('@/components/Detail.vue')
   }
 })
 export default class Detail extends Vue {
