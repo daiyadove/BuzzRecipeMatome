@@ -2,7 +2,7 @@
   <div>
     <v-card class="d-flex flex-row" flat tile>
       <TweetCard :tweetLink="this.tweetLink" />
-      <Detail />
+      <Material />
     </v-card>
   </div>
 </template>
@@ -14,7 +14,7 @@ import { searchStore } from '~/store'
 @Component({
   components: {
     TweetCard: () => import('@/components/TweetCard.vue'),
-    Detail: () => import('@/components/Detail.vue')
+    Material: () => import('@/components/Material.vue')
   }
 })
 export default class Detail extends Vue {
