@@ -5,7 +5,7 @@
   "author": "daiya",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --max_old_space_size=2048 --optimize_for_size",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
