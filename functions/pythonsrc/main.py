@@ -5,6 +5,8 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import time
 import os
+from bs4 import BeautifulSoup
+import requests
 
 def getRecipeTweet(event, context):
 
@@ -81,3 +83,19 @@ def getRecipeTweet(event, context):
             time.sleep(2)
         except IndexError:
             pass
+
+# CookPadからぶっこ抜く
+def getMaterials(event, context):
+    
+    target_url = 'https://cookpad.com/recipe/3988130'
+    r = requests.get(target_url)
+    soup = BeautifulSoup(r.text, 'lxml')
+    ingredients = soup.find_all('div', class_='ingredient_name')
+    for ingredient in ingredients:
+        print(ingredient.text)
+
+
+if __name__ == "__main__":
+    getMaterials('hoge', 'fuga')
+
+    
