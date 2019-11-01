@@ -93,14 +93,13 @@ def getMaterials(event, context):
         r = requests.get(base_url + str(recipe_id))
         soup = BeautifulSoup(r.text, 'lxml')
         ingredients = soup.find_all('div', class_='ingredient_name')
-        kigou = []
         for ingredient in ingredients:
             # 記号文字を抜きたい
             material = re.sub("[^ぁ-んァ-ンーa-zA-Z0-9一-龠０-９\-\r]", '', ingredient.text)
             print(material)
 
-def getRecipeUrl():
-    target_url = 'https://cookpad.com/category/10'
+def getRecipeUrlFromCategoryPage(category_id):
+    target_url = 'https://cookpad.com/category/' + str(category_id)
     r = requests.get(target_url)
     soup = BeautifulSoup(r.text, 'lxml')
     # recipes = soup.find_all('a', href=re.compile("*/recipe/d{7}"))
@@ -114,7 +113,9 @@ def getCategoryId():
     soup = BeautifulSoup(r.text, 'lxml')
     sub_category = soup.find_all('a', href=re.compile("/category/\d+"))
     category_id_list = list(map(lambda category: re.search("\d+", category['href']).group(), sub_category))
-    print(list(set(category_id_list)))
+    category_id_list = list(set(category_id_list))
+    for category_id in category_id_list:
+        getRecipeUrlFromCategoryPage(category_id)
 
 if __name__ == "__main__":
     # getMaterials('hoge', 'fuga')
