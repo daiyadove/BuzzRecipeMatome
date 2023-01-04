@@ -22,7 +22,7 @@
     "eslint-plugin-nuxt": "^0.4.3",
     "firebase": "^7.2.0",
     "firebase-tools": "^7.5.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "vue-property-decorator": "^8.2.2",
     "vuex-class-component": "^2.0.4",
     "vuex-module-decorators": "^0.10.1"
